@@ -63,4 +63,8 @@ Created by Vanessa Sastre.
 
 This project is licensed under the [Attribution-NonCommercial-ShareAlike 3.0 Spain License by Creative Commons](LICENSE).
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=vanessastre_maping-cli-security-tool)](https://sonarcloud.io/summary/new_code?id=vanessastre_maping-cli-security-tool)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=vanessastre_maping-cli-security-tool&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=vanessastre_maping-cli-security-tool)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=vanessastre_maping-cli-security-tool&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=vanessastre_maping-cli-security-tool)
 [![Build](https://github.com/vanessastre/maping-cli-security-tool/actions/workflows/sonarcloud.yml/badge.svg?branch=main)](https://github.com/vanessastre/maping-cli-security-tool/actions/workflows/sonarcloud.yml)
+
