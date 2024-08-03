@@ -1,0 +1,75 @@
+{
+    "header_analysis": "HEADERS ANALYSIS",
+    "could_not_retrieve_headers": "Could not retrieve headers from the provided URL.",
+    
+    "x_content_type_options": {
+        "present": "The X-Content-Type-Options header is sent: nosniff",
+        "not_present": "The X-Content-Type-Options header is not present",
+        "not_present_recommendation": "Properly configure the Content-Type header across the site."
+    },
+    
+    "x_frame_options": {
+        "present_deny": "The X-Frame-Options header is set to: deny",
+        "present_other": "The X-Frame-Options header is present, but its value is: {value}",
+        "present_other_recommendation": "Change the X-Frame-Options header value to 'deny' for better security.",
+        "not_present": "The X-Frame-Options header is not present",
+        "not_present_recommendation": "Prevent the page from being displayed in a frame. If possible, use the CSP frame-ancestors directive instead of X-Frame-Options."
+    },
+    
+    "content_security_policy": {
+        "present": "The Content-Security-Policy header is sent.",
+        "not_present": "Content-Security-Policy header not found.",
+        "not_present_recommendation": "Configuring and maintaining a Content Security Policy (CSP) is crucial to detect and mitigate certain types of attacks."
+    },
+    
+    "fingerprinting_headers": {
+        "not_found": "No server fingerprinting headers found - X-Powered-By, Server, X-AspNet-Version.",
+        "found": "Found headers {headers}",
+        "found_recommendation": "Remove or set non-informative values for these headers."
+    },
+    
+    "content_type": {
+        "correct": "Correct content type for the response: {content_type}",
+        "incorrect": "The Content-Type header is present, but its value is: {content_type}",
+        "incorrect_recommendation": "Properly set the Content-Type header to 'text/html' if the content is HTML. The charset attribute is necessary to prevent XSS on HTML pages.",
+        "not_found": "Content-Type header not found",
+        "not_found_recommendation": "Ensure that the Content-Type header is properly set in the response to avoid issues in content interpretation by the client."
+    },
+    "certificate_analysis":"CERTIFICATE ANALYSIS",
+    "no_certificate": "Could not obtain the SSL certificate from the provided URL.",
+
+    "key_strength": {
+        "sufficient": "Key strength sufficient: {0} bits",
+        "insufficient": "Key strength insufficient: {0} bits",
+        "recommendation": "Use a private key of at least 2048 bits.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-strong-keys-and-protect-them"
+    },
+
+    "hash_algorithm": {
+        "sha256": "Cryptographic hash algorithm: SHA-256",
+        "not_sha256": "Cryptographic hash algorithm is not SHA-256: {0}",
+        "recommendation": "Use SHA-256 for hashing instead of older algorithms.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-strong-cryptographic-hashing-algorithms"
+    },
+
+    "domain_names": {
+        "match": "Domain names match the certificate",
+        "no_match": "Domain names do not match the certificate",
+        "recommendation": "Ensure the domain name matches the fully qualified domain name of the server.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-correct-domain-names"
+    },
+
+    "wildcard_certificate": {
+        "wildcard": "Wildcard certificate: Avoid using wildcard certificates",
+        "recommendation": "Use wildcard certificates only when necessary.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#carefully-consider-the-use-of-wildcard-certificates",
+        "not_wildcard": "Wildcard certificate: Not a wildcard certificate"
+    },
+
+    "certificate_authority": {
+        "lets_encrypt": "Certificate Authority (CA): Issued by Let's Encrypt",
+        "not_lets_encrypt": "Certificate Authority (CA): Not issued by Let's Encrypt",
+        "recommendation": "Use a trusted CA like Let's Encrypt for automatic trust.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-an-appropriate-certification-authority-for-the-applications-user-base"
+    }
+}

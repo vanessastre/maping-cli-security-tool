@@ -1,0 +1,75 @@
+{
+    "header_analysis": "ANÁLISIS DE ENCABEZADOS",
+    "could_not_retrieve_headers": "No se pudieron recuperar los encabezados de la URL proporcionada.",
+    
+    "x_content_type_options": {
+        "present": "El encabezado X-Content-Type-Options se envía: nosniff",
+        "not_present": "El encabezado X-Content-Type-Options no está presente",
+        "not_present_recommendation": "Configure adecuadamente el encabezado Content-Type en todo el sitio."
+    },
+    
+    "x_frame_options": {
+        "present_deny": "El encabezado X-Frame-Options está configurado como: deny",
+        "present_other": "El encabezado X-Frame-Options está presente, pero su valor es: {value}",
+        "present_other_recommendation": "Cambie el valor del encabezado X-Frame-Options a 'deny' para una mejor seguridad.",
+        "not_present": "El encabezado X-Frame-Options no está presente",
+        "not_present_recommendation": "Evite que la página se muestre en un marco. Si es posible, use la directiva CSP frame-ancestors en lugar de X-Frame-Options."
+    },
+    
+    "content_security_policy": {
+        "present": "El encabezado Content-Security-Policy se envía.",
+        "not_present": "No se encontró el encabezado Content-Security-Policy.",
+        "not_present_recommendation": "Configurar y mantener una Política de Seguridad de Contenidos (CSP) es crucial para detectar y mitigar ciertos tipos de ataques."
+    },
+    
+    "fingerprinting_headers": {
+        "not_found": "No se encontraron encabezados de identificación del servidor - X-Powered-By, Server, X-AspNet-Version.",
+        "found": "Encabezados encontrados {headers}",
+        "found_recommendation": "Elimine o configure valores no informativos para estos encabezados."
+    },
+    
+    "content_type": {
+        "correct": "Tipo de contenido correcto para la respuesta: {content_type}",
+        "incorrect": "El encabezado Content-Type está presente, pero su valor es: {content_type}",
+        "incorrect_recommendation": "Configure adecuadamente el encabezado Content-Type a 'text/html' si el contenido es HTML. El atributo charset es necesario para prevenir XSS en páginas HTML.",
+        "not_found": "No se encontró el encabezado Content-Type",
+        "not_found_recommendation": "Asegúrese de que el encabezado Content-Type esté configurado adecuadamente en la respuesta para evitar problemas en la interpretación del contenido por parte del cliente."
+    },
+    "certificate_analysis": "ANÁLISIS DE CERTIFICADOS",
+    "no_certificate": "No se pudo obtener el certificado SSL de la URL proporcionada.",
+
+    "key_strength": {
+        "sufficient": "Fuerza de clave suficiente: {0} bits",
+        "insufficient": "Fuerza de clave insuficiente: {0} bits",
+        "recommendation": "Utilice una clave privada de al menos 2048 bits.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-strong-keys-and-protect-them"
+    },
+
+    "hash_algorithm": {
+        "sha256": "Algoritmo de hash criptográfico: SHA-256",
+        "not_sha256": "El algoritmo de hash criptográfico no es SHA-256: {0}",
+        "recommendation": "Utilice SHA-256 para el hash en lugar de algoritmos más antiguos.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-strong-cryptographic-hashing-algorithms"
+    },
+
+    "domain_names": {
+        "match": "Los nombres de dominio coinciden con el certificado",
+        "no_match": "Los nombres de dominio no coinciden con el certificado",
+        "recommendation": "Asegúrese de que el nombre de dominio coincida con el nombre de dominio completo del servidor.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-correct-domain-names"
+    },
+
+    "wildcard_certificate": {
+        "wildcard": "Certificado comodín: Evite usar certificados comodín",
+        "recommendation": "Utilice certificados comodín solo cuando sea necesario.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#carefully-consider-the-use-of-wildcard-certificates",
+        "not_wildcard": "Certificado comodín: No es un certificado comodín"
+    },
+
+    "certificate_authority": {
+        "lets_encrypt": "✅ Autoridad de Certificación (CA): Emitido por Let's Encrypt",
+        "not_lets_encrypt": "Autoridad de Certificación (CA): No emitido por Let's Encrypt",
+        "recommendation": "Utilice una CA confiable como Let's Encrypt para una confianza automática.",
+        "more_info": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-an-appropriate-certification-authority-for-the-applications-user-base"
+    }
+}
