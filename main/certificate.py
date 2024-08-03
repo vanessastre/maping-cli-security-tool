@@ -2,6 +2,11 @@ import ssl
 import socket
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
+import json
+
+def load_json(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return json.load(file)
 
 def get_certificate(url):
     """
@@ -79,107 +84,114 @@ def get_key_size(url):
     cert = x509.load_pem_x509_certificate(cert_pem, default_backend())
     return cert.public_key().key_size
 
-def analyze_key_strength(url):
+def analyze_key_strength(url, messages):
     """
     Analyzes the strength of the SSL certificate's key.
 
     Args:
         url (str): The URL for which to analyze the SSL certificate.
+        messages (dict): A dictionary containing the messages from the JSON file.
     """
     key_size = get_key_size(url)
     if key_size >= 2048:
-        print(f"✅ Key strength sufficient: {key_size} bits\n")
+        print(f"✅ {messages['key_strength']['sufficient'].format(key_size)}\n")
     else:
-        print(f"❌ Key strength insufficient: {key_size} bits")
-        print("\tRecommendation: Use a private key of at least 2048 bits.")
-        print("\tMore information: \033[94mhttps://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-strong-keys-and-protect-them\033[0m\n")
+        print(f"❌ {messages['key_strength']['insufficient'].format(key_size)}")
+        print(f"\tRecommendation: {messages['key_strength']['recommendation']}")
+        print(f"\tMore information: \033[94m{messages['key_strength']['more_info']}\033[0m\n")
 
-def analyze_hash_algorithm(url):
+def analyze_hash_algorithm(url, messages):
     """
     Analyzes the hash algorithm used in the SSL certificate.
 
     Args:
         url (str): The URL for which to analyze the SSL certificate.
+        messages (dict): A dictionary containing the messages from the JSON file.
     """
     cert_pem = get_certificate_pem(url)
     cert = x509.load_pem_x509_certificate(cert_pem, default_backend())
     signature_algorithm = cert.signature_algorithm_oid._name
 
     if "sha256" in signature_algorithm.lower():
-        print("✅ Cryptographic hash algorithm: SHA-256\n")
+        print(f"✅ {messages['hash_algorithm']['sha256']}\n")
     else:
-        print(f"❌ Cryptographic hash algorithm is not SHA-256: {signature_algorithm}")
-        print("\tRecommendation: Use SHA-256 for hashing instead of older algorithms.")
-        print("\tMore information: \033[94mhttps://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-strong-cryptographic-hashing-algorithms\033[0m\n")
+        print(f"❌ {messages['hash_algorithm']['not_sha256'].format(signature_algorithm)}")
+        print(f"\tRecommendation: {messages['hash_algorithm']['recommendation']}")
+        print(f"\tMore information: \033[94m{messages['hash_algorithm']['more_info']}\033[0m\n")
 
-def analyze_domain_names(url, cert):
+def analyze_domain_names(url, cert, messages):
     """
     Analyzes the domain names in the SSL certificate.
 
     Args:
         url (str): The URL for which the SSL certificate was obtained.
         cert (dict): A dictionary containing the details of the SSL certificate.
+        messages (dict): A dictionary containing the messages from the JSON file.
     """
     hostname = url.split("//")[-1].split("/")[0]
     san_list = [entry[1] for entry in cert.get('subjectAltName', []) if entry[0].lower() == 'dns']
     common_name = get_common_name(cert)
     
     if hostname == common_name or hostname in san_list:
-        print("✅ Domain names match the certificate\n")
+        print(f"✅ {messages['domain_names']['match']}\n")
     else:
-        print("❌ Domain names do not match the certificate")
-        print("\tRecommendation: Ensure the domain name matches the fully qualified domain name of the server.")
-        print("\tMore information: \033[94mhttps://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-correct-domain-names\033[0m\n")
+        print(f"❌ {messages['domain_names']['no_match']}")
+        print(f"\tRecommendation: {messages['domain_names']['recommendation']}")
+        print(f"\tMore information: \033[94m{messages['domain_names']['more_info']}\033[0m\n")
 
-def analyze_wildcard_certificate(cert):
+def analyze_wildcard_certificate(cert, messages):
     """
     Analyzes whether the SSL certificate is a wildcard certificate.
 
     Args:
         cert (dict): A dictionary containing the details of the SSL certificate.
+        messages (dict): A dictionary containing the messages from the JSON file.
     """
     common_name = get_common_name(cert)
     if common_name.startswith("*."):
-        print("❌ Wildcard certificate: Avoid using wildcard certificates")
-        print("\tRecommendation: Use wildcard certificates only when necessary.")
-        print("\tMore information: \033[94mhttps://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#carefully-consider-the-use-of-wildcard-certificates\033[0m\n")
+        print(f"❌ {messages['wildcard_certificate']['wildcard']}")
+        print(f"\tRecommendation: {messages['wildcard_certificate']['recommendation']}")
+        print(f"\tMore information: \033[94m{messages['wildcard_certificate']['more_info']}\033[0m\n")
     else:
-        print("✅ Wildcard certificate: Not a wildcard certificate\n")
+        print(f"✅ {messages['wildcard_certificate']['not_wildcard']}\n")
 
-def analyze_certificate_authority(cert):
+def analyze_certificate_authority(cert, messages):
     """
     Analyzes the certificate authority of the SSL certificate.
 
     Args:
         cert (dict): A dictionary containing the details of the SSL certificate.
+        messages (dict): A dictionary containing the messages from the JSON file.
     """
     issuer_org = next((item[1] for item in cert.get("issuer", []) for item in item if item[0] == 'organizationName'), "")
     
     if "Let's Encrypt" in issuer_org:
-        print("✅ Certificate Authority (CA): Issued by Let's Encrypt\n")
+        print(f"✅ {messages['certificate_authority']['lets_encrypt']}\n")
     else:
-        print("❌ Certificate Authority (CA): Not issued by Let's Encrypt")
-        print("\tRecommendation: Use a trusted CA like Let's Encrypt for automatic trust.")
-        print("\tMore information: \033[94mhttps://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#use-an-appropriate-certification-authority-for-the-applications-user-base\033[0m\n")
+        print(f"❌ {messages['certificate_authority']['not_lets_encrypt']}")
+        print(f"\tRecommendation: {messages['certificate_authority']['recommendation']}")
+        print(f"\tMore information: \033[94m{messages['certificate_authority']['more_info']}\033[0m\n")
 
-def analyze_certificate(url):
+def analyze_certificate(url, language):
     """
     Analyzes the SSL certificate of a given URL.
 
     Args:
         url (str): The URL for which to analyze the SSL certificate.
+        language (str): The language to use for the messages ('en' or 'es').
     """
+    messages = load_json(f'main/{language}.json')
     cert = get_certificate(url)
     
     if cert:
         print("\n\033[1m-------------------------------------------------------------------------------------------\033[0m")
-        print("\033[1m\n                    CERTIFICATE ANALYSIS:\033[0m \n")
+        print("\n\033[1m                        {}\033[0m".format(messages['certificate_analysis']))
         print("\033[1m-------------------------------------------------------------------------------------------\033[0m\n")
         
-        analyze_key_strength(url)
-        analyze_hash_algorithm(url)
-        analyze_domain_names(url, cert)
-        analyze_wildcard_certificate(cert)
-        analyze_certificate_authority(cert)
+        analyze_key_strength(url, messages)
+        analyze_hash_algorithm(url, messages)
+        analyze_domain_names(url, cert, messages)
+        analyze_wildcard_certificate(cert, messages)
+        analyze_certificate_authority(cert, messages)
     else:
-        print("Could not obtain the SSL certificate from the provided URL.")
+        print(messages['no_certificate'])

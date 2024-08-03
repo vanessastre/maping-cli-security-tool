@@ -10,8 +10,21 @@ It focuses on two main areas of checking: headers and transport layer security c
 
 ## Main Features
 
-- Analysis of HTTP headers, including X-Content-Type-Options, X-Frame-Options, Content-Security-Policy, and Content-Type.
-- Evaluation of SSL/TLS certificates, checking key strength, hashing algorithm, wildcard certificates issuance, and Let’s Encrypt validity.
+#### Analysis of HTTP Headers:
+
+- X-Content-Type-Options
+- X-Frame-Options
+- Content-Security-Policy
+- Fingerprinting
+- Content-Type
+
+#### Evaluation of SSL/TLS Certificates:
+
+- Key Strength
+- Hashing Algorithm
+- Domain names
+- Wildcard Certificates
+- Certificate Authority
 
 ## Installation
 
@@ -26,12 +39,14 @@ pip install -r requirements.txt
 ## Usage
 
 ```
-python maping.py -u <URL> [-e] [-c]
+python maping.py -u <URL> [-e] [-c] [--language <lang>]
 ```
 
 - `-u, --url`: Specifies the URL you want to analyze.
 - `-e, --headers`: Displays detailed information about the HTTP headers of the URL (optional).
 - `-c, --certificate`: Displays detailed information about the SSL certificate of the URL (optional).
+- `--language <lang>`: Specifies the language for the output. Default is en for English. Use `--language es` to switch to Spanish.
+
 
 ### Usage Example
 
@@ -55,6 +70,20 @@ Example usage to perform only certificate analysis:
 python maping.py -u https://example.com -c
 ```
 
+## Output Examples
+
+#### Help menu
+
+<img src="main/resources/maping_help.png" alt="mAPIng Help menu" width="500"/>
+
+#### Header analysis with detected issues
+
+<img src="main/resources/maping_headers_analysis.png" alt="mAPIng Headers analysis" width="800"/>
+
+#### Certificate analysis with no issues found
+
+<img src="main/resources/maping_certificate_analysis.png" alt="mAPIng Certificate analysis" width="500"/>
+
 ## Credits
 
 Created by Vanessa Sastre.
@@ -66,5 +95,3 @@ This project is licensed under the [Attribution-NonCommercial-ShareAlike 3.0 Spa
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=vanessastre_maping-cli-security-tool)](https://sonarcloud.io/summary/new_code?id=vanessastre_maping-cli-security-tool)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=vanessastre_maping-cli-security-tool&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=vanessastre_maping-cli-security-tool)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=vanessastre_maping-cli-security-tool&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=vanessastre_maping-cli-security-tool)
-[![Build](https://github.com/vanessastre/maping-cli-security-tool/actions/workflows/sonarcloud.yml/badge.svg?branch=main)](https://github.com/vanessastre/maping-cli-security-tool/actions/workflows/sonarcloud.yml)
-
