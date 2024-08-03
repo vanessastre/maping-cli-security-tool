@@ -62,3 +62,5 @@ Created by Vanessa Sastre.
 ## License
 
 This project is licensed under the [Attribution-NonCommercial-ShareAlike 3.0 Spain License by Creative Commons](LICENSE).
+
+[![Build](https://github.com/vanessastre/maping-cli-security-tool/actions/workflows/sonarcloud.yml/badge.svg?branch=main)](https://github.com/vanessastre/maping-cli-security-tool/actions/workflows/sonarcloud.yml)
