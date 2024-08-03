@@ -24,6 +24,7 @@ def parse_arguments():
     parser.add_argument("-u", "--url", help="Specify the URL to analyze", required=True)
     parser.add_argument("-e", "--headers", action="store_true", help="Displays information about the URL's headers")
     parser.add_argument("-c", "--certificate", action="store_true", help="Displays information about the URL's certificate")
+    parser.add_argument("--language", choices=['en', 'es'], default='en', help="Specify the language for the output (default: English)")
     return parser.parse_args()
 
 def main():
@@ -35,10 +36,10 @@ def main():
         args.certificate = True
 
     if args.headers:
-        headers.analyze_headers(args.url)
+        headers.analyze_headers(args.url, args.language)
 
     if args.certificate:
-        certificate.analyze_certificate(args.url)
+        certificate.analyze_certificate(args.url, args.language)
 
 if __name__ == "__main__":
     print_banner()
